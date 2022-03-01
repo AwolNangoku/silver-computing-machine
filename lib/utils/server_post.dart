@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future serverPost(String url, Object data) async {
+Future<http.Response> serverPost(String url, Object data) async {
   final response = await http.post(
     Uri.parse(url),
     headers: <String, String>{

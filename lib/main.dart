@@ -13,9 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.green),
-      home: const Register(title: 'Register your account'),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(primarySwatch: Colors.green),
+        home: const Scaffold(
+          body: Center(child: Register(title: 'Register your account')),
+        ));
   }
 }

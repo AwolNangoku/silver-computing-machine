@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:grandeur_app/models/user.dart';
-import 'package:grandeur_app/utils/server_post.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key, required this.title}) : super(key: key);
@@ -30,55 +29,89 @@ class _RegisterSate extends State<Register> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextField(
+      body: Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(20.0),
+          child: buildColumn()),
+    );
+  }
+
+  Column buildColumn() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: Expanded(
+                child: TextField(
               controller: _firstname,
-              decoration: const InputDecoration(hintText: 'Enter Firstname'),
-            ),
-            TextField(
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Enter firstname',
+              ),
+            ))),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: Expanded(
+                child: TextField(
               controller: _lastname,
-              decoration: const InputDecoration(hintText: 'Enter Lastname'),
-            ),
-            TextField(
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Enter lastname',
+              ),
+            ))),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: Expanded(
+                child: TextField(
               controller: _phoneNumber,
-              decoration:
-                  const InputDecoration(hintText: 'Enter Mobile number'),
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Enter Mobile number',
+              ),
+            ))),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          child: Expanded(
+              child: TextField(
+            controller: _email,
+            decoration: const InputDecoration(
+              border: UnderlineInputBorder(),
+              labelText: 'Enter email address',
             ),
-            TextField(
-              controller: _email,
-              decoration: const InputDecoration(hintText: 'Enter email'),
-            ),
-            TextField(
-              controller: _password,
-              decoration: const InputDecoration(hintText: 'Enter password'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                print(User(
-                    name: _firstname.text,
-                    email: _email.text,
-                    password: _password.text,
-                    phoneNumber: _phoneNumber.text,
-                    bio: _bio.text));
-                // serverPost(
-                //     'http://10.0.2.2:3000/account/register',
-                //     User(
-                //         name: _firstname.text,
-                //         email: _email.text,
-                //         password: _password.text,
-                //         phoneNumber: _phoneNumber.text,
-                //         bio: _bio.text));
-              },
-              child: const Text('Register'),
-            )
-          ],
+          )),
         ),
-      ),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: Expanded(
+                child: TextField(
+              controller: _password,
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Enter password',
+              ),
+            ))),
+        Expanded(
+            child: ElevatedButton(
+          onPressed: () {
+            print(User(
+                name: _firstname.text,
+                email: _email.text,
+                password: _password.text,
+                phoneNumber: _phoneNumber.text,
+                bio: _bio.text));
+            // serverPost(
+            //     'http://10.0.2.2:3000/account/register',
+            //     User(
+            //         name: _firstname.text,
+            //         email: _email.text,
+            //         password: _password.text,
+            //         phoneNumber: _phoneNumber.text,
+            //         bio: _bio.text));
+          },
+          child: const Text('Register'),
+        ))
+      ],
     );
   }
 }
