@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grandeur_app/models/user.dart';
+import 'package:grandeur_app/utils/server_post.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key, required this.title}) : super(key: key);
@@ -20,6 +21,7 @@ class _RegisterSate extends State<Register> {
   final TextEditingController _password = TextEditingController();
   final TextEditingController _phoneNumber = TextEditingController();
   final TextEditingController _bio = TextEditingController();
+  final TextEditingController __idNumber = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,9 @@ class _RegisterSate extends State<Register> {
       body: Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(20.0),
-          child: buildColumn()),
+          child: SingleChildScrollView(
+            child: buildColumn(),
+          )),
     );
   }
 
@@ -41,7 +45,7 @@ class _RegisterSate extends State<Register> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Expanded(
                 child: TextField(
               controller: _firstname,
@@ -51,7 +55,7 @@ class _RegisterSate extends State<Register> {
               ),
             ))),
         Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Expanded(
                 child: TextField(
               controller: _lastname,
@@ -61,17 +65,7 @@ class _RegisterSate extends State<Register> {
               ),
             ))),
         Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: Expanded(
-                child: TextField(
-              controller: _phoneNumber,
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Enter Mobile number',
-              ),
-            ))),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: Expanded(
               child: TextField(
             controller: _email,
@@ -82,35 +76,60 @@ class _RegisterSate extends State<Register> {
           )),
         ),
         Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Expanded(
                 child: TextField(
+              obscureText: true,
               controller: _password,
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
                 labelText: 'Enter password',
               ),
             ))),
-        Expanded(
-            child: ElevatedButton(
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            child: Expanded(
+                child: TextField(
+              controller: _phoneNumber,
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Enter phone number',
+              ),
+            ))),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            child: Expanded(
+                child: TextField(
+              controller: __idNumber,
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Enter ID',
+              ),
+            ))),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            child: Expanded(
+                child: TextField(
+              controller: _bio,
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Bio details',
+              ),
+            ))),
+        ElevatedButton(
           onPressed: () {
-            print(User(
-                name: _firstname.text,
-                email: _email.text,
-                password: _password.text,
-                phoneNumber: _phoneNumber.text,
-                bio: _bio.text));
-            // serverPost(
-            //     'http://10.0.2.2:3000/account/register',
-            //     User(
-            //         name: _firstname.text,
-            //         email: _email.text,
-            //         password: _password.text,
-            //         phoneNumber: _phoneNumber.text,
-            //         bio: _bio.text));
+            serverPost('http://10.0.2.2:3000/account/register', {
+              'firstname': _firstname.text,
+              'lastname': _lastname.text,
+              'emailAddress': _email.text,
+              'password': _password.text,
+              'mobileNumber': _phoneNumber.text,
+              'idNumber': __idNumber.text,
+              'bio': _bio.text
+            }).then((value) => print(value));
           },
           child: const Text('Register'),
-        ))
+        )
       ],
     );
   }
