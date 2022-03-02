@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grandeur_app/utils/server_post.dart';
+import 'package:grandeur_app/screens/register.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key, required this.title}) : super(key: key);
@@ -7,6 +8,7 @@ class Login extends StatefulWidget {
   // This widget is the login page of the application.
 
   final String title;
+  static const String routeName = '/login';
 
   @override
   State<Login> createState() => _LoginState();
@@ -29,30 +31,55 @@ class _LoginState extends State<Login> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
+      body: Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(20.0),
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            TextField(
-              controller: _username,
-              decoration: const InputDecoration(hintText: 'Enter username'),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: Expanded(
+                    child: TextField(
+                  controller: _username,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    labelText: 'Enter email address',
+                  ),
+                ))),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: Expanded(
+                  child: TextField(
+                obscureText: true,
+                controller: _password,
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'Enter password',
+                ),
+              )),
             ),
-            TextField(
-              controller: _password,
-              decoration: const InputDecoration(hintText: 'Enter password'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                String uname = _username.text;
-                String pword = _password.text;
-
-                serverPost('http://10.0.2.2:3000/account/login',
-                    {'username': uname, 'password': pword});
-              },
-              child: const Text('Sign in'),
-            )
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  ElevatedButton(
+                    onPressed: () {
+                      serverPost('http://10.0.2.2:3000/account/login', {
+                        'username': _username.text,
+                        'password': _password.text
+                      }).then((value) => print('Bookings $value'));
+                    },
+                    child: const Text('Sign in'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, Register.routeName);
+                    },
+                    child: const Text('Sign up'),
+                  )
+                ])
           ],
         ),
       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grandeur_app/models/user.dart';
+import 'package:grandeur_app/screens/login.dart';
 import 'package:grandeur_app/utils/server_post.dart';
 
 class Register extends StatefulWidget {
@@ -8,6 +8,7 @@ class Register extends StatefulWidget {
   // This widget is the login page of the application.
 
   final String title;
+  static const String routeName = '/register';
 
   @override
   State<Register> createState() => _RegisterSate();
@@ -116,19 +117,30 @@ class _RegisterSate extends State<Register> {
                 labelText: 'Bio details',
               ),
             ))),
-        ElevatedButton(
-          onPressed: () {
-            serverPost('http://10.0.2.2:3000/account/register', {
-              'firstname': _firstname.text,
-              'lastname': _lastname.text,
-              'emailAddress': _email.text,
-              'password': _password.text,
-              'mobileNumber': _phoneNumber.text,
-              'idNumber': __idNumber.text,
-              'bio': _bio.text
-            }).then((value) => print(value));
-          },
-          child: const Text('Register'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                serverPost('http://10.0.2.2:3000/account/register', {
+                  'firstname': _firstname.text,
+                  'lastname': _lastname.text,
+                  'emailAddress': _email.text,
+                  'password': _password.text,
+                  'mobileNumber': _phoneNumber.text,
+                  'idNumber': __idNumber.text,
+                  'bio': _bio.text
+                }).then((value) => print(value));
+              },
+              child: const Text('Register'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Back'),
+            )
+          ],
         )
       ],
     );

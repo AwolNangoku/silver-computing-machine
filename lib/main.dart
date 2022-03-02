@@ -13,10 +13,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Grandeur Beauty and Spa',
+        onGenerateRoute: (settings) {
+          if (settings.name == Register.routeName) {
+            return MaterialPageRoute(builder: (context) {
+              return const Register(title: 'Grandeur: Signup');
+            });
+          }
+          if (settings.name == Login.routeName) {
+            return MaterialPageRoute(builder: (context) {
+              return const Login(title: 'Grandeur: Signup');
+            });
+          }
+          return null;
+        },
         theme: ThemeData(primarySwatch: Colors.green),
-        home: const Scaffold(
-          body: Center(child: Register(title: 'Register your account')),
-        ));
+        home: const Login(title: 'Grandeur: Signup'));
   }
 }
