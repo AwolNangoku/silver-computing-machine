@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grandeur_app/models/user.dart';
 import 'package:grandeur_app/screens/profile.dart';
 import 'package:grandeur_app/utils/server_post.dart';
+import 'package:localstorage/localstorage.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key, required this.title}) : super(key: key);
@@ -26,6 +27,7 @@ class _RegisterSate extends State<Register> {
   final TextEditingController __idNumber = TextEditingController();
 
   late bool isCreatingAccount = false;
+  LocalStorage storage = LocalStorage('grandeur_app');
 
   @override
   Widget build(BuildContext context) {
@@ -138,10 +140,12 @@ class _RegisterSate extends State<Register> {
                   'mobileNumber': _phoneNumber.text,
                   'idNumber': __idNumber.text,
                   'bio': _bio.text
-                }).then((response) => response['user']).then((user) =>
-                    Navigator.of(context).pushReplacementNamed(
-                        Profile.routeName,
-                        arguments: User.fromJson(user)));
+                }).then((value) => {
+                      storage.setItem('user', User.fromJson(value['user'])),
+                      Navigator.of(context).pushReplacementNamed(
+                          Profile.routeName,
+                          arguments: User.fromJson(value['user']))
+                    });
               },
               child: const Text('Register'),
             ),
