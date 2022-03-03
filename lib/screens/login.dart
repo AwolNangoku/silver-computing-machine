@@ -21,6 +21,7 @@ class _LoginState extends State<Login> {
   final TextEditingController _username = TextEditingController();
   final TextEditingController _password = TextEditingController();
   late bool isSigningUp = false;
+  LocalStorage storage = LocalStorage('grandeur_app');
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +81,8 @@ class _LoginState extends State<Login> {
                               'username': _username.text,
                               'password': _password.text
                             }).then((value) => {
+                                  storage.setItem(
+                                      'user', User.fromJson(value['user'])),
                                   Navigator.of(context).pushReplacementNamed(
                                       Profile.routeName,
                                       arguments: User.fromJson(value['user']))

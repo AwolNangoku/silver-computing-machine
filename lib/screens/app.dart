@@ -27,9 +27,7 @@ class App extends StatelessWidget {
           }
           if (settings.name == Profile.routeName) {
             return MaterialPageRoute(builder: (context) {
-              final args = settings.arguments as User;
-
-              return Profile(title: 'My Profile', signedInUser: args);
+              return const Profile(title: 'My Profile');
             });
           }
           if (settings.name == Bookings.routeName) {

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:grandeur_app/models/user.dart';
 import 'package:grandeur_app/screens/bookings.dart';
 import 'package:grandeur_app/screens/login.dart';
+import 'package:localstorage/localstorage.dart';
 
 class Profile extends StatelessWidget {
   final String title;
-  final User signedInUser;
+  static LocalStorage storage = LocalStorage('grandeur_app');
 
-  const Profile({Key? key, required this.title, required this.signedInUser})
-      : super(key: key);
+  const Profile({Key? key, required this.title}) : super(key: key);
 
   static const String routeName = '/profile';
 
@@ -21,7 +21,7 @@ class Profile extends StatelessWidget {
       body: Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(20.0),
-          child: const Text('Grandeur profile.')),
+          child: buildFutureBuilder()),
       drawer: Drawer(
           child: ListView(
         padding: EdgeInsets.zero,
@@ -35,8 +35,14 @@ class Profile extends StatelessWidget {
           ),
           ListTile(
             title: const Text('Sign out'),
-            onTap: () =>
-                Navigator.of(context).pushReplacementNamed(Login.routeName),
+            onTap: () => Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        const Login(title: 'Grandeur: Signup')), (route) {
+              storage.clear();
+              return false;
+            }),
           ),
         ],
       )),
@@ -45,6 +51,21 @@ class Profile extends StatelessWidget {
         tooltip: 'Book a Grandeur Beauty and Spa session',
         child: const Icon(Icons.add),
       ),
+    );
+  }
+
+  FutureBuilder<User> buildFutureBuilder() {
+    return FutureBuilder<User>(
+      future: Future<User>(() => storage.getItem('user')),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Text(snapshot.data!.firstname);
+        } else if (snapshot.hasError) {
+          return Text('${snapshot.error}');
+        }
+
+        return const CircularProgressIndicator();
+      },
     );
   }
 }

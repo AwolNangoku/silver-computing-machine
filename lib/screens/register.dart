@@ -138,11 +138,10 @@ class _RegisterSate extends State<Register> {
                   'mobileNumber': _phoneNumber.text,
                   'idNumber': __idNumber.text,
                   'bio': _bio.text
-                }).then((value) => {
-                      Navigator.of(context).pushReplacementNamed(
-                          Profile.routeName,
-                          arguments: User.fromJson(value['user']))
-                    });
+                }).then((response) => response['user']).then((user) =>
+                    Navigator.of(context).pushReplacementNamed(
+                        Profile.routeName,
+                        arguments: User.fromJson(user)));
               },
               child: const Text('Register'),
             ),
