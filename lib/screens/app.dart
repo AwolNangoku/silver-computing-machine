@@ -22,7 +22,7 @@ class App extends StatelessWidget {
           }
           if (settings.name == Login.routeName) {
             return MaterialPageRoute(builder: (context) {
-              return const Login(title: 'Grandeur: Signup');
+              return const Login(title: 'Grandeur: Signin');
             });
           }
           if (settings.name == Profile.routeName) {
@@ -37,13 +37,13 @@ class App extends StatelessWidget {
           }
 
           return MaterialPageRoute(builder: (context) {
-            return const Login(title: 'Grandeur: Signup');
+            return const Login(title: 'Grandeur: Signin');
           });
         },
         onUnknownRoute: (settings) => MaterialPageRoute(builder: (context) {
-              return const Login(title: 'Grandeur: Signup');
+              return const Login(title: 'Grandeur: Signin');
             }),
         theme: ThemeData(primarySwatch: Colors.green),
-        home: const Login(title: 'Grandeur: Signup'));
+        home: const Login(title: 'Grandeur: Signin'));
   }
 }
