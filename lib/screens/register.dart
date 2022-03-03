@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:grandeur_app/screens/login.dart';
+import 'package:grandeur_app/models/user.dart';
+import 'package:grandeur_app/screens/profile.dart';
 import 'package:grandeur_app/utils/server_post.dart';
 
 class Register extends StatefulWidget {
@@ -24,6 +25,8 @@ class _RegisterSate extends State<Register> {
   final TextEditingController _bio = TextEditingController();
   final TextEditingController __idNumber = TextEditingController();
 
+  late bool isCreatingAccount = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +39,9 @@ class _RegisterSate extends State<Register> {
           alignment: Alignment.center,
           padding: const EdgeInsets.all(20.0),
           child: SingleChildScrollView(
-            child: buildColumn(),
+            child: !isCreatingAccount
+                ? buildColumn()
+                : const CircularProgressIndicator(),
           )),
     );
   }
@@ -122,6 +127,9 @@ class _RegisterSate extends State<Register> {
           children: <Widget>[
             ElevatedButton(
               onPressed: () {
+                setState(() {
+                  isCreatingAccount = true;
+                });
                 serverPost('http://10.0.2.2:3000/account/register', {
                   'firstname': _firstname.text,
                   'lastname': _lastname.text,
@@ -130,7 +138,11 @@ class _RegisterSate extends State<Register> {
                   'mobileNumber': _phoneNumber.text,
                   'idNumber': __idNumber.text,
                   'bio': _bio.text
-                }).then((value) => print(value));
+                }).then((value) => {
+                      Navigator.of(context).pushReplacementNamed(
+                          Profile.routeName,
+                          arguments: User.fromJson(value['user']))
+                    });
               },
               child: const Text('Register'),
             ),

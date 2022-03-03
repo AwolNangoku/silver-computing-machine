@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future serverPost(String url, Object data) async {
-  print(data);
   final response = await http.post(
     Uri.parse(url),
     headers: <String, String>{
