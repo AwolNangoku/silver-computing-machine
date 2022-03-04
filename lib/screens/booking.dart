@@ -108,7 +108,7 @@ class _BookingState extends State<Booking> {
                 //           arguments: User.fromJson(value['user']))
                 //     });
               },
-              child: const Text('Register'),
+              child: const Text('Submit'),
             ),
             ElevatedButton(
               onPressed: () {
