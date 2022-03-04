@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:grandeur_app/models/user.dart';
-import 'package:grandeur_app/screens/profile.dart';
 import 'package:grandeur_app/utils/server_post.dart';
 import 'package:localstorage/localstorage.dart';
 
