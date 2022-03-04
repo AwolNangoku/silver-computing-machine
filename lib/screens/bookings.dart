@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grandeur_app/models/user.dart';
+import 'package:grandeur_app/screens/booking.dart';
 import 'package:grandeur_app/screens/login.dart';
 import 'package:grandeur_app/screens/profile.dart';
 import 'package:localstorage/localstorage.dart';
@@ -47,7 +48,7 @@ class Bookings extends StatelessWidget {
         ],
       )),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => print('Add a booking'),
+        onPressed: () => Navigator.pushNamed(context, Booking.routeName),
         tooltip: 'Book a Grandeur Beauty and Spa session',
         child: const Icon(Icons.add),
       ),

@@ -4,29 +4,23 @@ import 'package:grandeur_app/screens/profile.dart';
 import 'package:grandeur_app/utils/server_post.dart';
 import 'package:localstorage/localstorage.dart';
 
-class Register extends StatefulWidget {
-  const Register({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the login page of the application.
+class Booking extends StatefulWidget {
+  const Booking({Key? key, required this.title}) : super(key: key);
 
   final String title;
-  static const String routeName = '/register';
+  static const String routeName = '/booking';
 
   @override
-  State<Register> createState() => _RegisterSate();
+  State<Booking> createState() => _BookingState();
 }
 
-class _RegisterSate extends State<Register> {
+class _BookingState extends State<Booking> {
   final TextEditingController _firstname = TextEditingController();
   final TextEditingController _lastname = TextEditingController();
   final TextEditingController _email = TextEditingController();
-
-  final TextEditingController _password = TextEditingController();
   final TextEditingController _phoneNumber = TextEditingController();
-  final TextEditingController _bio = TextEditingController();
-  final TextEditingController __idNumber = TextEditingController();
 
-  late bool isCreatingAccount = false;
+  late bool isAddingBooking = false;
   LocalStorage storage = LocalStorage('grandeur_app');
 
   @override
@@ -41,7 +35,7 @@ class _RegisterSate extends State<Register> {
           alignment: Alignment.center,
           padding: const EdgeInsets.all(20.0),
           child: SingleChildScrollView(
-            child: !isCreatingAccount
+            child: !isAddingBooking
                 ? buildColumn()
                 : const CircularProgressIndicator(),
           )),
@@ -87,41 +81,10 @@ class _RegisterSate extends State<Register> {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Expanded(
                 child: TextField(
-              obscureText: true,
-              controller: _password,
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Password',
-              ),
-            ))),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Expanded(
-                child: TextField(
               controller: _phoneNumber,
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
                 labelText: 'Phone Number',
-              ),
-            ))),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Expanded(
-                child: TextField(
-              controller: __idNumber,
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Ientity Number',
-              ),
-            ))),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Expanded(
-                child: TextField(
-              controller: _bio,
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Bio Details',
               ),
             ))),
         Row(
@@ -130,22 +93,20 @@ class _RegisterSate extends State<Register> {
             ElevatedButton(
               onPressed: () {
                 setState(() {
-                  isCreatingAccount = true;
+                  isAddingBooking = true;
                 });
-                serverPost('http://10.0.2.2:3000/account/register', {
-                  'firstname': _firstname.text,
-                  'lastname': _lastname.text,
-                  'emailAddress': _email.text,
-                  'password': _password.text,
-                  'mobileNumber': _phoneNumber.text,
-                  'idNumber': __idNumber.text,
-                  'bio': _bio.text
-                }).then((value) => {
-                      storage.setItem('user', User.fromJson(value['user'])),
-                      Navigator.of(context).pushReplacementNamed(
-                          Profile.routeName,
-                          arguments: User.fromJson(value['user']))
-                    });
+                print('Adding a new booking');
+                // serverPost('http://10.0.2.2:3000/booking/add', {
+                //   'firstname': _firstname.text,
+                //   'lastname': _lastname.text,
+                //   'emailAddress': _email.text,
+                //   'mobileNumber': _phoneNumber.text,
+                // }).then((value) => {
+                //       storage.setItem('user', User.fromJson(value['user'])),
+                //       Navigator.of(context).pushReplacementNamed(
+                //           Profile.routeName,
+                //           arguments: User.fromJson(value['user']))
+                //     });
               },
               child: const Text('Register'),
             ),
@@ -153,7 +114,7 @@ class _RegisterSate extends State<Register> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Back'),
+              child: const Text('Cancel'),
             )
           ],
         )

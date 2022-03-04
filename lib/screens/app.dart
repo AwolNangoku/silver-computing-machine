@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:grandeur_app/screens/booking.dart';
 import 'package:grandeur_app/screens/bookings.dart';
 import 'package:grandeur_app/screens/login.dart';
 import 'package:grandeur_app/screens/profile.dart';
@@ -32,6 +33,12 @@ class App extends StatelessWidget {
           if (settings.name == Bookings.routeName) {
             return MaterialPageRoute(builder: (context) {
               return const Bookings(title: 'My Bookings');
+            });
+          }
+          if (settings.name == Booking.routeName) {
+            return MaterialPageRoute(builder: (context) {
+              return const Booking(
+                  title: 'Grandeur: Beauty and Spa session reservation');
             });
           }
 

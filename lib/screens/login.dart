@@ -53,7 +53,7 @@ class _LoginState extends State<Login> {
                         controller: _username,
                         decoration: const InputDecoration(
                           border: UnderlineInputBorder(),
-                          labelText: 'Enter email address',
+                          labelText: 'Email Address',
                         ),
                       ))),
                   Padding(
@@ -65,7 +65,7 @@ class _LoginState extends State<Login> {
                       controller: _password,
                       decoration: const InputDecoration(
                         border: UnderlineInputBorder(),
-                        labelText: 'Enter password',
+                        labelText: 'Password',
                       ),
                     )),
                   ),
