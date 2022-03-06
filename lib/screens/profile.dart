@@ -34,14 +34,14 @@ class Profile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(
-                        width: 50,
-                        height: 50,
+                        width: 80,
+                        height: 80,
                         child: ClipOval(
                           child: CachedNetworkImage(
                             placeholder: (context, url) =>
                                 const CircularProgressIndicator(),
                             imageUrl:
-                                'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png',
+                                'https://img.freepik.com/free-vector/woman-avatar-spa_24877-5702.jpg?size=626&ext=jpg',
                             fit: BoxFit.fill,
                           ),
                         )),
@@ -80,16 +80,18 @@ class Profile extends StatelessWidget {
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              ClipOval(
-                  child: CachedNetworkImage(
-                width: 150,
-                height: 150,
-                placeholder: (context, url) =>
-                    const CircularProgressIndicator(),
-                imageUrl:
-                    'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png',
-                fit: BoxFit.fill,
-              )),
+              SizedBox(
+                width: 130,
+                height: 130,
+                child: ClipOval(
+                    child: CachedNetworkImage(
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
+                  imageUrl:
+                      'https://maxcdn.icons8.com/Share/icon/ultraviolet/Users/gender_neutral_user1600.png',
+                  fit: BoxFit.fill,
+                )),
+              ),
               const Divider(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),

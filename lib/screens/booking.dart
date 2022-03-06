@@ -111,9 +111,9 @@ class _BookingState extends State<Booking> {
           children: <Widget>[
             ElevatedButton(
               onPressed: () {
-                setState(() {
-                  isAddingBooking = true;
-                });
+                // setState(() {
+                //   isAddingBooking = true;
+                // });
                 print(
                     'Adding a new booking loggedInuser: ${signedUser.id} firstname: ${_firstname.text} lastname: ${_lastname.text} emailAddress: ${_email.text} mobileNumber: ${_phoneNumber.text} ');
                 // serverPost('http://10.0.2.2:3000/booking/add/signedUser.id', {

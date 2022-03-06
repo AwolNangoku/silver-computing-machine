@@ -27,12 +27,12 @@ class App extends StatelessWidget {
           }
           if (settings.name == Profile.routeName) {
             return MaterialPageRoute(builder: (context) {
-              return const Profile(title: 'My Profile');
+              return const Profile(title: 'Profile');
             });
           }
           if (settings.name == Bookings.routeName) {
             return MaterialPageRoute(builder: (context) {
-              return const Bookings(title: 'My Bookings');
+              return const Bookings(title: 'Bookings');
             });
           }
           if (settings.name == Booking.routeName) {
