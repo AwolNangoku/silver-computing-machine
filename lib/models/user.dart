@@ -6,6 +6,7 @@ class User {
   final String mobileNumber;
   final String idNumber;
   final String bio;
+  final String id;
 
   const User(
       {required this.firstname,
@@ -14,10 +15,12 @@ class User {
       required this.password,
       required this.mobileNumber,
       required this.idNumber,
-      required this.bio});
+      required this.bio,
+      required this.id});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
+        id: json['_id'],
         firstname: json['firstname'],
         lastname: json['lastname'],
         emailAddress: json['emailAddress'],

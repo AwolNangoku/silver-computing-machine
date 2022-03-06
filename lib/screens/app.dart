@@ -37,8 +37,7 @@ class App extends StatelessWidget {
           }
           if (settings.name == Booking.routeName) {
             return MaterialPageRoute(builder: (context) {
-              return const Booking(
-                  title: 'Grandeur: Beauty and Spa session reservation');
+              return const Booking(title: 'Book Beauty & Spa Session');
             });
           }
 

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:grandeur_app/models/user.dart';
 import 'package:grandeur_app/screens/booking.dart';
@@ -27,9 +28,25 @@ class Bookings extends StatelessWidget {
           child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.green),
-              child: Text('App settings')),
+          DrawerHeader(
+              decoration: const BoxDecoration(color: Colors.green),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: ClipOval(
+                          child: CachedNetworkImage(
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            imageUrl:
+                                'https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png',
+                            fit: BoxFit.fill,
+                          ),
+                        )),
+                    const Text('App Settings')
+                  ])),
           ListTile(
             title: const Text('My Profile'),
             onTap: () => Navigator.pushNamed(context, Profile.routeName),
@@ -57,10 +74,23 @@ class Bookings extends StatelessWidget {
 
   FutureBuilder<User> buildFutureBuilder() {
     return FutureBuilder<User>(
-      future: Future<User>(() => storage.getItem('user')),
+      future: Future<User>(() {
+        final user = storage.getItem('user');
+        return user;
+      }),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Text(snapshot.data!.firstname);
+          final items = ['Booking A', 'Booking B', 'Booking C', 'Booking D'];
+          return ListView.builder(
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              final item = items[index];
+
+              return ListTile(
+                title: Text(item),
+              );
+            },
+          );
         } else if (snapshot.hasError) {
           return Text('${snapshot.error}');
         }
