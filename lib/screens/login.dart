@@ -99,9 +99,8 @@ class _LoginState extends State<Login> {
                                       User.fromJson(loginResults['user']);
                                   storage.setItem('user', loggedInuser);
 
-                                  Navigator.of(context).pushReplacementNamed(
-                                      Profile.routeName,
-                                      arguments: loggedInuser);
+                                  Navigator.of(context)
+                                      .pushReplacementNamed(Profile.routeName);
                                 } else {
                                   setState(() {
                                     isSigningIn = false;

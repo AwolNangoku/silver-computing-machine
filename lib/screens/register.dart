@@ -66,13 +66,13 @@ class _RegisterSate extends State<Register> {
           padding: const EdgeInsets.all(20.0),
           child: SingleChildScrollView(
             child: !isCreatingAccount
-                ? buildAccountFomr()
+                ? buildAccountForm()
                 : const CircularProgressIndicator(),
           )),
     );
   }
 
-  Form buildAccountFomr() {
+  Form buildAccountForm() {
     return Form(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -184,9 +184,8 @@ class _RegisterSate extends State<Register> {
                     var newUser = User.fromJson(accountResults['user']);
 
                     storage.setItem('user', newUser);
-                    Navigator.of(context).pushReplacementNamed(
-                        Profile.routeName,
-                        arguments: newUser);
+                    Navigator.of(context)
+                        .pushReplacementNamed(Profile.routeName);
                   }
                 } catch (error) {
                   setState(() {

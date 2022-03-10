@@ -3,6 +3,34 @@ import 'package:grandeur_app/models/user.dart';
 import 'package:grandeur_app/utils/server_post.dart';
 import 'package:localstorage/localstorage.dart';
 
+class BookingData {
+  String? signedInUserId;
+  String? firstname;
+  String? lastname;
+  String? emailAddress;
+  String? password;
+  String? mobileNumber;
+  String? bookingDetails;
+
+  BookingData(
+      {this.firstname,
+      this.lastname,
+      this.emailAddress,
+      this.mobileNumber,
+      this.bookingDetails});
+
+  Object toJson() {
+    return {
+      'signedInUserId': signedInUserId,
+      'firstname': firstname,
+      'lastname': lastname,
+      'emailAddress': emailAddress,
+      'mobileNumber': mobileNumber,
+      'bookingDetails': bookingDetails,
+    };
+  }
+}
+
 class Booking extends StatefulWidget {
   const Booking({Key? key, required this.title}) : super(key: key);
 
@@ -14,6 +42,7 @@ class Booking extends StatefulWidget {
 }
 
 class _BookingState extends State<Booking> {
+  BookingData bookingFormData = BookingData();
   final TextEditingController _firstname = TextEditingController();
   final TextEditingController _lastname = TextEditingController();
   final TextEditingController _email = TextEditingController();
@@ -45,106 +74,119 @@ class _BookingState extends State<Booking> {
           padding: const EdgeInsets.all(20.0),
           child: SingleChildScrollView(
             child: !isAddingBooking
-                ? buildColumn()
+                ? buildBookingForm()
                 : const CircularProgressIndicator(),
           )),
     );
   }
 
-  Column buildColumn() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Padding(
+  Form buildBookingForm() {
+    return Form(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: Expanded(
+                  child: TextFormField(
+                autofocus: true,
+                textInputAction: TextInputAction.next,
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'First Name',
+                ),
+                onChanged: (value) {
+                  bookingFormData.firstname = value;
+                },
+              ))),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: Expanded(
+                  child: TextFormField(
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'Last Name',
+                ),
+                onChanged: (value) {
+                  bookingFormData.lastname = value;
+                },
+              ))),
+          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Expanded(
-                child: TextField(
-              controller: _firstname,
+                child: TextFormField(
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
-                labelText: 'First Name',
+                hintText: 'example@domain.com',
+                labelText: 'Email Address',
               ),
-            ))),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Expanded(
-                child: TextField(
-              controller: _lastname,
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Last Name',
-              ),
-            ))),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          child: Expanded(
-              child: TextField(
-            controller: _email,
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Email Address',
-            ),
-          )),
-        ),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Expanded(
-                child: TextField(
-              controller: _phoneNumber,
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Phone Number',
-              ),
-            ))),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Expanded(
-                child: TextField(
-              controller: _bookingDetails,
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Booking Details',
-              ),
-            ))),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                // setState(() {
-                //   isAddingBooking = true;
-                // });
-                print(
-                    'Adding a new booking loggedInuser: ${signedUser.id} firstname: ${_firstname.text} lastname: ${_lastname.text} emailAddress: ${_email.text} mobileNumber: ${_phoneNumber.text} ');
-                // serverPost('http://10.0.2.2:3000/booking/add/signedUser.id', {
-                //   'loggedInuser': signedUser.id,
-                //   'firstname': _firstname.text,
-                //   'lastname': _lastname.text,
-                //   'emailAddress': _email.text,
-                //   'mobileNumber': _phoneNumber.text,
-                //   'bookingDetails: _bookingDetails._text,
-                // }).then((value) => {
-                //       storage.setItem('user', User.fromJson(value['user'])),
-                //       Navigator.of(context).pushReplacementNamed(
-                //           Profile.routeName,
-                //           arguments: User.fromJson(value['user']))
-                //     });
+              onChanged: (value) {
+                bookingFormData.emailAddress = value;
+              },
+            )),
+          ),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: Expanded(
+                  child: TextFormField(
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'Mobile Number',
+                ),
+                onChanged: (value) {
+                  bookingFormData.mobileNumber = value;
+                },
+              ))),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: Expanded(
+                  child: TextFormField(
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'Booking Details',
+                ),
+                onChanged: (value) {
+                  bookingFormData.bookingDetails = value;
+                },
+              ))),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: () {
+                  // setState(() {
+                  //   isAddingBooking = true;
+                  // });
+                  print(
+                      'Adding a new booking loggedInuser: ${signedUser.id} firstname: ${_firstname.text} lastname: ${_lastname.text} emailAddress: ${_email.text} mobileNumber: ${_phoneNumber.text} ');
+                  // serverPost('http://10.0.2.2:3000/booking/add/signedUser.id', {
+                  //   'loggedInuser': signedUser.id,
+                  //   'firstname': _firstname.text,
+                  //   'lastname': _lastname.text,
+                  //   'emailAddress': _email.text,
+                  //   'mobileNumber': _phoneNumber.text,
+                  //   'bookingDetails: _bookingDetails._text,
+                  // }).then((value) => {
+                  //       storage.setItem('user', User.fromJson(value['user'])),
+                  //       Navigator.of(context).pushReplacementNamed(
+                  //           Profile.routeName,
+                  //           arguments: User.fromJson(value['user']))
+                  //     });
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Saving booking...')),
-                );
-              },
-              child: const Text('Submit'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Cancel'),
-            )
-          ],
-        )
-      ],
-    );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Saving booking...')),
+                  );
+                },
+                child: const Text('Submit'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancel'),
+              )
+            ],
+          )
+        ]));
   }
 }
