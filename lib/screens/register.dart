@@ -85,7 +85,6 @@ class _RegisterSate extends State<Register> {
               textInputAction: TextInputAction.next,
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
-                hintText: 'Mandisa',
                 labelText: 'First Name',
               ),
               onChanged: (value) {
@@ -98,7 +97,6 @@ class _RegisterSate extends State<Register> {
                 child: TextFormField(
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
-                hintText: 'Ngxakayi',
                 labelText: 'Last Name',
               ),
               onChanged: (value) {
@@ -107,19 +105,17 @@ class _RegisterSate extends State<Register> {
             ))),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              child: Expanded(
-                  child: TextFormField(
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  hintText: 'example@domain.com',
-                  labelText: 'Email Address',
-                ),
-                onChanged: (value) {
-                  accountFormData.emailAddress = value;
-                },
-              ))),
+          child: Expanded(
+              child: TextFormField(
+            decoration: const InputDecoration(
+              border: UnderlineInputBorder(),
+              hintText: 'example@domain.com',
+              labelText: 'Email Address',
+            ),
+            onChanged: (value) {
+              accountFormData.emailAddress = value;
+            },
+          )),
         ),
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -127,7 +123,6 @@ class _RegisterSate extends State<Register> {
                 child: TextFormField(
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
-                hintText: '****************',
                 labelText: 'Password',
               ),
               obscureText: true,

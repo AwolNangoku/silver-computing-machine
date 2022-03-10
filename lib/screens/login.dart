@@ -74,7 +74,6 @@ class _LoginState extends State<Login> {
                             child: TextFormField(
                           decoration: const InputDecoration(
                             border: UnderlineInputBorder(),
-                            hintText: '****************',
                             labelText: 'Password',
                           ),
                           obscureText: true,
