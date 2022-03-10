@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:grandeur_app/models/user.dart';
+import 'package:grandeur_app/screens/profile.dart';
 import 'package:grandeur_app/utils/server_post.dart';
 import 'package:localstorage/localstorage.dart';
 
 class BookingData {
-  String? signedInUserId;
   String? firstname;
   String? lastname;
   String? emailAddress;
@@ -21,7 +21,6 @@ class BookingData {
 
   Object toJson() {
     return {
-      'signedInUserId': signedInUserId,
       'firstname': firstname,
       'lastname': lastname,
       'emailAddress': emailAddress,
@@ -43,11 +42,6 @@ class Booking extends StatefulWidget {
 
 class _BookingState extends State<Booking> {
   BookingData bookingFormData = BookingData();
-  final TextEditingController _firstname = TextEditingController();
-  final TextEditingController _lastname = TextEditingController();
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _phoneNumber = TextEditingController();
-  final TextEditingController _bookingDetails = TextEditingController();
 
   late bool isAddingBooking = false;
   late User signedUser;
@@ -153,29 +147,26 @@ class _BookingState extends State<Booking> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               ElevatedButton(
-                onPressed: () {
-                  // setState(() {
-                  //   isAddingBooking = true;
-                  // });
-                  print(
-                      'Adding a new booking loggedInuser: ${signedUser.id} firstname: ${_firstname.text} lastname: ${_lastname.text} emailAddress: ${_email.text} mobileNumber: ${_phoneNumber.text} ');
-                  // serverPost('http://10.0.2.2:3000/booking/add/signedUser.id', {
-                  //   'loggedInuser': signedUser.id,
-                  //   'firstname': _firstname.text,
-                  //   'lastname': _lastname.text,
-                  //   'emailAddress': _email.text,
-                  //   'mobileNumber': _phoneNumber.text,
-                  //   'bookingDetails: _bookingDetails._text,
-                  // }).then((value) => {
-                  //       storage.setItem('user', User.fromJson(value['user'])),
-                  //       Navigator.of(context).pushReplacementNamed(
-                  //           Profile.routeName,
-                  //           arguments: User.fromJson(value['user']))
-                  //     });
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Saving booking...')),
-                  );
+                onPressed: () async {
+                  setState(() {
+                    isAddingBooking = true;
+                  });
+                  try {
+                    var bookingResults = await serverPost(
+                        'http://10.0.2.2:3000/booking/add/${signedUser.id}',
+                        bookingFormData.toJson());
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Saving booking...')),
+                    );
+                    if (bookingResults['success']) {
+                      Navigator.of(context)
+                          .pushReplacementNamed(Profile.routeName);
+                    }
+                  } catch (error) {
+                    setState(() {
+                      isAddingBooking = false;
+                    });
+                  }
                 },
                 child: const Text('Submit'),
               ),
