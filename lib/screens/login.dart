@@ -54,8 +54,7 @@ class _LoginState extends State<Login> {
                     Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 8),
-                        child: Expanded(
-                            child: TextFormField(
+                        child: TextFormField(
                           autofocus: true,
                           textInputAction: TextInputAction.next,
                           decoration: const InputDecoration(
@@ -66,12 +65,11 @@ class _LoginState extends State<Login> {
                           onChanged: (value) {
                             loginFormData.username = value;
                           },
-                        ))),
+                        )),
                     Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 8),
-                        child: Expanded(
-                            child: TextFormField(
+                        child: TextFormField(
                           decoration: const InputDecoration(
                             border: UnderlineInputBorder(),
                             labelText: 'Password',
@@ -80,7 +78,7 @@ class _LoginState extends State<Login> {
                           onChanged: (value) {
                             loginFormData.password = value;
                           },
-                        ))),
+                        )),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[

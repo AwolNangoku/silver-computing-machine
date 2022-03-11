@@ -33,18 +33,14 @@ class Bookings extends StatelessWidget {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(
-                        width: 80,
-                        height: 80,
-                        child: ClipOval(
-                          child: CachedNetworkImage(
-                            placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
-                            imageUrl:
-                                'https://img.freepik.com/free-vector/woman-avatar-spa_24877-5702.jpg?size=626&ext=jpg',
-                            fit: BoxFit.fill,
-                          ),
-                        )),
+                    CircleAvatar(
+                      backgroundImage: const NetworkImage(
+                          'https://img.freepik.com/free-vector/woman-avatar-spa_24877-5702.jpg?size=626&ext=jpg'),
+                      radius: 45,
+                      onBackgroundImageError: (e, s) {
+                        debugPrint('image issue, $e,$s');
+                      },
+                    ),
                     const Text('App Settings')
                   ])),
           ListTile(

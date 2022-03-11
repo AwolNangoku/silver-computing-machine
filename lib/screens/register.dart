@@ -67,7 +67,12 @@ class _RegisterSate extends State<Register> {
           child: SingleChildScrollView(
             child: !isCreatingAccount
                 ? buildAccountForm()
-                : const CircularProgressIndicator(),
+                : Column(
+                    children: const <Widget>[
+                      CircularProgressIndicator(),
+                      Text('Creating account...')
+                    ],
+                  ),
           )),
     );
   }
@@ -79,8 +84,7 @@ class _RegisterSate extends State<Register> {
       children: <Widget>[
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Expanded(
-                child: TextFormField(
+            child: TextFormField(
               autofocus: true,
               textInputAction: TextInputAction.next,
               decoration: const InputDecoration(
@@ -90,11 +94,10 @@ class _RegisterSate extends State<Register> {
               onChanged: (value) {
                 accountFormData.firstname = value;
               },
-            ))),
+            )),
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Expanded(
-                child: TextFormField(
+            child: TextFormField(
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
                 labelText: 'Last Name',
@@ -102,11 +105,10 @@ class _RegisterSate extends State<Register> {
               onChanged: (value) {
                 accountFormData.lastname = value;
               },
-            ))),
+            )),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          child: Expanded(
-              child: TextFormField(
+          child: TextFormField(
             decoration: const InputDecoration(
               border: UnderlineInputBorder(),
               hintText: 'example@domain.com',
@@ -115,12 +117,11 @@ class _RegisterSate extends State<Register> {
             onChanged: (value) {
               accountFormData.emailAddress = value;
             },
-          )),
+          ),
         ),
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Expanded(
-                child: TextFormField(
+            child: TextFormField(
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
                 labelText: 'Password',
@@ -129,11 +130,10 @@ class _RegisterSate extends State<Register> {
               onChanged: (value) {
                 accountFormData.password = value;
               },
-            ))),
+            )),
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Expanded(
-                child: TextFormField(
+            child: TextFormField(
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
                 labelText: 'Mobile Number',
@@ -141,11 +141,10 @@ class _RegisterSate extends State<Register> {
               onChanged: (value) {
                 accountFormData.mobileNumber = value;
               },
-            ))),
+            )),
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Expanded(
-                child: TextFormField(
+            child: TextFormField(
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
                 labelText: 'Identity Number',
@@ -153,11 +152,10 @@ class _RegisterSate extends State<Register> {
               onChanged: (value) {
                 accountFormData.idNumber = value;
               },
-            ))),
+            )),
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Expanded(
-                child: TextFormField(
+            child: TextFormField(
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
                 hintText: 'A little bit about yourself ^_^',
@@ -166,7 +164,7 @@ class _RegisterSate extends State<Register> {
               onChanged: (value) {
                 accountFormData.bio = value;
               },
-            ))),
+            )),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
@@ -180,7 +178,7 @@ class _RegisterSate extends State<Register> {
                   var accountResults = await serverPost(
                       'http://10.0.2.2:3000/account/register',
                       accountFormData.toJson());
-                  if (accountResults['user']) {
+                  if (accountResults['success']) {
                     var newUser = User.fromJson(accountResults['user']);
 
                     storage.setItem('user', newUser);

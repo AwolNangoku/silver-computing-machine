@@ -45,6 +45,8 @@ class _BookingState extends State<Booking> {
 
   late bool isAddingBooking = false;
   late User signedUser;
+  DateTime bookingDate = DateTime.now();
+
   LocalStorage storage = LocalStorage('grandeur_app');
 
   @override
@@ -69,20 +71,42 @@ class _BookingState extends State<Booking> {
           child: SingleChildScrollView(
             child: !isAddingBooking
                 ? buildBookingForm()
-                : const CircularProgressIndicator(),
+                : Column(
+                    children: const <Widget>[
+                      CircularProgressIndicator(),
+                      Text('Adding booking...')
+                    ],
+                  ),
           )),
     );
   }
 
+  selectBookingDate(BuildContext context) async {
+    final DateTime? selectedDate = await showDatePicker(
+        context: context,
+        initialDate: bookingDate,
+        firstDate: DateTime(1970),
+        lastDate: DateTime(2025 + 1),
+        helpText: "Select Booking Date",
+        cancelText: "Not Now",
+        confirmText: "Book");
+
+    if (selectedDate != null && selectedDate != bookingDate) {
+      setState(() {
+        bookingDate = selectedDate;
+      });
+    }
+  }
+
   Form buildBookingForm() {
+    debugPrint(bookingDate.toString());
     return Form(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              child: Expanded(
-                  child: TextFormField(
+              child: TextFormField(
                 autofocus: true,
                 textInputAction: TextInputAction.next,
                 decoration: const InputDecoration(
@@ -92,11 +116,10 @@ class _BookingState extends State<Booking> {
                 onChanged: (value) {
                   bookingFormData.firstname = value;
                 },
-              ))),
+              )),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              child: Expanded(
-                  child: TextFormField(
+              child: TextFormField(
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
                   labelText: 'Last Name',
@@ -104,11 +127,10 @@ class _BookingState extends State<Booking> {
                 onChanged: (value) {
                   bookingFormData.lastname = value;
                 },
-              ))),
+              )),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Expanded(
-                child: TextFormField(
+            child: TextFormField(
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
                 hintText: 'example@domain.com',
@@ -117,12 +139,11 @@ class _BookingState extends State<Booking> {
               onChanged: (value) {
                 bookingFormData.emailAddress = value;
               },
-            )),
+            ),
           ),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              child: Expanded(
-                  child: TextFormField(
+              child: TextFormField(
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
                   labelText: 'Mobile Number',
@@ -130,11 +151,17 @@ class _BookingState extends State<Booking> {
                 onChanged: (value) {
                   bookingFormData.mobileNumber = value;
                 },
-              ))),
+              )),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              child: Expanded(
-                  child: TextFormField(
+              child: TextButton(
+                  child: const Text('Select Date'),
+                  onPressed: () {
+                    selectBookingDate(context);
+                  })),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: TextFormField(
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
                   labelText: 'Booking Details',
@@ -142,7 +169,7 @@ class _BookingState extends State<Booking> {
                 onChanged: (value) {
                   bookingFormData.bookingDetails = value;
                 },
-              ))),
+              )),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[

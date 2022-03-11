@@ -21,9 +21,11 @@ class Profile extends StatelessWidget {
         title: Text(title),
       ),
       body: Container(
-          alignment: Alignment.center,
+          alignment: Alignment.topCenter,
           padding: const EdgeInsets.all(20.0),
-          child: buildFutureBuilder()),
+          child: SingleChildScrollView(
+            child: buildFutureBuilder(),
+          )),
       drawer: Drawer(
           child: ListView(
         padding: EdgeInsets.zero,
@@ -33,18 +35,14 @@ class Profile extends StatelessWidget {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(
-                        width: 80,
-                        height: 80,
-                        child: ClipOval(
-                          child: CachedNetworkImage(
-                            placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
-                            imageUrl:
-                                'https://img.freepik.com/free-vector/woman-avatar-spa_24877-5702.jpg?size=626&ext=jpg',
-                            fit: BoxFit.fill,
-                          ),
-                        )),
+                    CircleAvatar(
+                      backgroundImage: const NetworkImage(
+                          'https://img.freepik.com/free-vector/woman-avatar-spa_24877-5702.jpg?size=626&ext=jpg'),
+                      radius: 45,
+                      onBackgroundImageError: (e, s) {
+                        debugPrint('image issue, $e,$s');
+                      },
+                    ),
                     const Text('App Settings')
                   ])),
           ListTile(
@@ -80,24 +78,22 @@ class Profile extends StatelessWidget {
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              SizedBox(
-                width: 130,
-                height: 130,
-                child: ClipOval(
-                    child: CachedNetworkImage(
-                  placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
-                  imageUrl:
-                      'https://maxcdn.icons8.com/Share/icon/ultraviolet/Users/gender_neutral_user1600.png',
-                  fit: BoxFit.fill,
-                )),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: CircleAvatar(
+                  backgroundImage: const NetworkImage(
+                      'https://www.yoco.com/za/blog/wp-content/uploads/2019/04/ncedile-story-feature-999x495-960x476.jpg'),
+                  radius: 45,
+                  onBackgroundImageError: (e, s) {
+                    debugPrint('image issue, $e,$s');
+                  },
+                ),
               ),
-              const Divider(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: <Widget>[
                     const Text('First Name:'),
                     Text(snapshot.data!.firstname)
                   ],
@@ -107,7 +103,7 @@ class Profile extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: <Widget>[
                     const Text('Last Name:'),
                     Text(snapshot.data!.lastname)
                   ],
@@ -117,9 +113,30 @@ class Profile extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: <Widget>[
                     const Text('Email Address:'),
                     Text(snapshot.data!.emailAddress)
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    const Text('Mobile Number:'),
+                    Text(snapshot.data!.mobileNumber)
+                  ],
+                ),
+              ),
+              const Divider(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    const Text('Bio Details:'),
+                    Text(snapshot.data!.bio),
                   ],
                 ),
               ),
