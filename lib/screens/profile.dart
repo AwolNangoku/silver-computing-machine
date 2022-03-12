@@ -1,10 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:grandeur_app/models/user.dart';
 import 'package:grandeur_app/screens/booking.dart';
 import 'package:grandeur_app/screens/bookings.dart';
 import 'package:grandeur_app/screens/login.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 class Profile extends StatelessWidget {
   final String title;
@@ -70,24 +73,48 @@ class Profile extends StatelessWidget {
     );
   }
 
+  Future<String?> uploadImage(filename, url) async {
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+    request.files.add(await http.MultipartFile.fromPath('picture', filename));
+    var res = await request.send();
+    return res.reasonPhrase;
+  }
+
   FutureBuilder<User> buildFutureBuilder() {
     return FutureBuilder<User>(
-      future: Future<User>(() => storage.getItem('user')),
+      future: Future<User>(() {
+        print(storage.getItem('avatar')!.path);
+        return storage.getItem('user');
+      }),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                child: CircleAvatar(
-                  backgroundImage: const NetworkImage(
-                      'https://www.yoco.com/za/blog/wp-content/uploads/2019/04/ncedile-story-feature-999x495-960x476.jpg'),
-                  radius: 45,
-                  onBackgroundImageError: (e, s) {
-                    debugPrint('image issue, $e,$s');
-                  },
-                ),
+              Stack(
+                alignment: const Alignment(1, 1),
+                children: <Widget>[
+                  ClipOval(
+                    child: SizedBox(
+                        width: 90,
+                        height: 90,
+                        child:
+                            Image.file(File(storage.getItem('avatar')!.path))),
+                  ),
+                  TextButton(
+                      child: const Icon(Icons.photo),
+                      onPressed: () async {
+                        var file = await ImagePicker()
+                            .pickImage(source: ImageSource.gallery);
+                        try {
+                          final XFile? pickedFile = await ImagePicker()
+                              .pickImage(source: ImageSource.gallery);
+
+                          storage.setItem('avatar', pickedFile);
+                        } catch (e) {}
+                        // var res = await uploadImage(file.path, widget.url);
+                      })
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
